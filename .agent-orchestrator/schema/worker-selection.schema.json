@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider", "model_class", "role"],
+  "properties": {
+    "provider": {"enum": ["auto", "deepseek", "fake", "future"]},
+    "model_class": {"enum": ["fast", "balanced", "deep"]},
+    "role": {"enum": ["implementer", "verifier"]}
+  }
+}

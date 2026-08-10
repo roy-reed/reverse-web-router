@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "depends_on", "states"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 2},
+    "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 2}},
+    "states": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": ["draft", "ready", "queued", "claimed", "running", "pr-open", "verifying", "changes-requested", "accepted", "blocked", "waiting-local", "failed", "cancelled"]
+      }
+    }
+  }
+}

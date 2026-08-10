@@ -1,0 +1,9 @@
+[project]
+name = "reverse-web-router"
+version = "0.1.0"
+description = "GitHub-cloud control plane with an optional LOCAL_EDGE compatibility path"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"

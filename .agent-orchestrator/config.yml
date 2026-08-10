@@ -1,0 +1,14 @@
+schema: orchestrator-config/v1
+canonical_protocol: rwrouter/2
+default_surface_for_repository: GITHUB_CLOUD
+local_edge_protocol: rwrouter/1.1
+merge_policy: NO_MAIN_AUTO_MERGE
+live_worker_enabled: false
+claim_directory: .rwr-state/claims
+worker:
+  provider: deepseek
+  model_class: balanced
+  role: implementer
+verification:
+  deterministic_required: true
+  semantic_review_for_high_impact: true

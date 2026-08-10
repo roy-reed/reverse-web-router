@@ -1,0 +1,7 @@
+{
+  "name": "com.roy.reverse_web_router",
+  "description": "Reverse Web Router LOCAL_EDGE Native Messaging host",
+  "path": "REPLACE_WITH_ABSOLUTE_NATIVE_HOST_LAUNCHER",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://REPLACE_WITH_EXTENSION_ID/"]
+}

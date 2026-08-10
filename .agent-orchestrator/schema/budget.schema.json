@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["max_wall_minutes", "max_cost_usd"],
+  "properties": {
+    "max_wall_minutes": {"type": "integer", "minimum": 1, "maximum": 1440},
+    "max_cost_usd": {"type": "number", "minimum": 0},
+    "max_tokens": {"type": "integer", "minimum": 1}
+  }
+}

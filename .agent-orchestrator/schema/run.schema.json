@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "objective", "architecture_decision", "tasks", "budget", "state"],
+  "properties": {
+    "schema": {"const": "agent-run/v1"},
+    "run_id": {"type": "string", "minLength": 2},
+    "objective": {"type": "string", "minLength": 10},
+    "architecture_decision": {"type": "string", "minLength": 1},
+    "tasks": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 2}},
+    "global_constraints": {"type": "array", "items": {"type": "string"}},
+    "budget": {"type": "object"},
+    "state": {"enum": ["planning", "dispatching", "running", "waiting_local", "completed", "failed", "cancelled"]}
+  }
+}

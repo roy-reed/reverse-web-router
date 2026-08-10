@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reverse Web Router Executor"
+  short_description: "执行受控 LOCAL_EDGE 交接并返回脱敏验收回执"
+  default_prompt: "Use $reverse-web-router-executor to execute this validated LOCAL_EDGE handoff safely and return a sanitized receipt."

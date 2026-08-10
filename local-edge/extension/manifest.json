@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Reverse Web Router LOCAL_EDGE",
+  "version": "0.1.0",
+  "description": "Detects rwrouter/1.1 handoffs only inside one explicitly bound ChatGPT Project.",
+  "permissions": ["activeTab", "storage", "nativeMessaging"],
+  "host_permissions": ["https://chatgpt.com/*"],
+  "background": {"service_worker": "service_worker.js"},
+  "action": {"default_popup": "popup.html"},
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

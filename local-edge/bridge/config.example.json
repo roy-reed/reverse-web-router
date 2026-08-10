@@ -1,0 +1,9 @@
+{
+  "bound_project_fingerprint": "g-p-REPLACE_ME",
+  "workspace_aliases": {
+    "default": "REPLACE_WITH_LOCAL_PATH"
+  },
+  "repository_aliases": {
+    "default": true
+  }
+}

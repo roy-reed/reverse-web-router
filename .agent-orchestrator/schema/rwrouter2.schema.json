@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:rwrouter:2:envelope",
+  "title": "rwrouter/2 semantic envelope",
+  "description": "Canonical semantic envelope for routing decisions. Provider-neutral: model names, credentials and cost controls belong in adapters, never here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol", "task_id", "surface", "objective"],
+  "properties": {
+    "protocol": { "const": "rwrouter/2" },
+    "task_id": { "$ref": "#/$defs/uuid" },
+    "run_id": { "$ref": "#/$defs/uuid" },
+    "surface": {
+      "enum": ["CONTROL", "WEB_DIRECT", "GITHUB_CLOUD", "LOCAL_EDGE", "HYBRID_CLOUD_LOCAL"]
+    },
+    "web_capability": { "enum": ["FAST", "BALANCED", "DEEP"] },
+    "project": { "$ref": "#/$defs/project" },
+    "orchestration": { "$ref": "#/$defs/orchestration" },
+    "objective": { "type": "string", "minLength": 1 },
+    "context": { "type": "object" },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "acceptance_criteria": { "$ref": "#/$defs/acceptance_criteria" },
+    "budget": { "$ref": "#/$defs/budget" },
+    "state": { "$ref": "#/$defs/task_state" },
+    "edge": { "$ref": "#/$defs/edge" }
+  },
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    "task_state": {
+      "enum": [
+        "draft", "ready", "queued", "claimed", "running", "pr-open",
+        "verifying", "changes-requested", "accepted", "blocked",
+        "waiting-local", "failed", "cancelled"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository_alias": { "type": "string", "minLength": 1 },
+        "workspace_alias": { "type": "string", "minLength": 1 }
+      }
+    },
+    "orchestration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "enum": ["SINGLE_AGENT", "MULTI_AGENT"] },
+        "planner": { "enum": ["WEB", "CODE", "HUMAN"] },
+        "worker_policy": { "enum": ["AUTO", "MANUAL"] },
+        "merge_policy": { "enum": ["NO_MAIN_AUTO_MERGE", "ALLOW_INTEGRATION_BRANCH"] }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "definition_of_done": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "commands": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_wall_minutes": { "type": "integer", "minimum": 1 },
+        "max_cost_usd": { "type": "number", "minimum": 0 },
+        "max_tokens": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "local_backend_preference": { "enum": ["AUTO", "CODEX_DIRECT", "CODING_RUNNER"] },
+        "local_capability": { "enum": ["FAST", "BALANCED", "DEEP"] },
+        "task_kind": {
+          "enum": ["coding", "file_ops", "analysis", "artifact", "research", "system", "other"]
+        },
+        "execution_policy": { "const": "SAFE_WORKSPACE" },
+        "network_policy": { "const": "OFF" },
+        "return_mode": { "enum": ["SUMMARY_AND_RECEIPT", "SUMMARY_ONLY"] }
+      }
+    }
+  }
+}

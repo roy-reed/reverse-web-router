@@ -1,0 +1,25 @@
+name: Agent integration gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      integration_branch:
+        description: Existing agent-integration branch to verify
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify-only:
+    if: "inputs.integration_branch != 'main'"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "${{ inputs.integration_branch }}"
+      - run: python -m unittest discover -s tests -v
+      - run: python .agent-orchestrator/scripts/validate_repo.py
+      - name: Human merge boundary
+        run: echo "Verification complete. This workflow never merges main."

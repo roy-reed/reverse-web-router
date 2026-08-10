@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "task_id", "run_id", "objective", "depends_on", "worker", "allowed_paths", "forbidden_paths", "definition_of_done", "acceptance_commands", "budget", "state"],
+  "properties": {
+    "schema": {"const": "agent-task/v1"},
+    "task_id": {"type": "string", "minLength": 2, "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]+$"},
+    "run_id": {"type": "string", "minLength": 2},
+    "objective": {"type": "string", "minLength": 10},
+    "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 2}},
+    "worker": {"type": "object"},
+    "allowed_paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "forbidden_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "definition_of_done": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "acceptance_commands": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "budget": {"type": "object"},
+    "state": {"enum": ["draft", "ready", "queued", "claimed", "running", "pr-open", "verifying", "changes-requested", "accepted", "blocked", "waiting-local", "failed", "cancelled"]}
+  }
+}
