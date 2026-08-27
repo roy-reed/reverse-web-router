@@ -2,6 +2,8 @@
 
 Cloud-first task routing for the ChatGPT Project `网页端调用本地`.
 
+中文说明见 [README.zh-CN.md](README.zh-CN.md)。
+
 Status: public MVP. Dry-run behavior and zero external-model spend are the defaults.
 
 The canonical control plane is GitHub. Repository engineering defaults to cloud workers and GitHub checks. The V2 Chromium extension, Native Messaging bridge, local Codex executor, and existing `coding-project-runner` remain available as the `LOCAL_EDGE` compatibility path for work that materially requires the user's Windows machine or local acceptance.
