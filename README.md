@@ -15,6 +15,7 @@ The source contracts are preserved under `docs/contracts/`. The binding architec
 - `web-project/`: exact ChatGPT Project instructions and the user setup checklist.
 - `local-edge/`: rwrouter/1.1 compatibility translator, Manifest V3 extension, and stdio-only Native Messaging host.
 - `codex-skill/reverse-web-router-executor/`: local Codex execution policy that reuses `coding-project-runner`.
+- `docs/research-tooling.md`: reproducible, low-overhead integration contract for arXiv, AnySearch, and Research Harness.
 - `tests/`: offline standard-library acceptance tests.
 
 Substantive web-originated work uses the DEEP/Sol High gateway; CONTROL traffic is the zero-handoff exception. Local execution is cost-first: scores 0–5 use FAST/Luna with the recorded `none` through `high` effort, 6–7 use BALANCED/Terra at `high` or `xhigh`, and 8–10 use DEEP/Sol at `max`. Provider-native model names remain in adapters rather than transport envelopes. DeepSeek `fast` and `balanced` use V4 Flash, while V4 Pro is reserved for a bounded planner/reviewer stage or an isolated non-decomposable deep unit. The complete two-axis policy is documented in [`docs/web-local-reasoning-routing.md`](docs/web-local-reasoning-routing.md).

@@ -10,6 +10,17 @@ This policy keeps the canonical execution surfaces while adding one cost-aware O
 4. The receiver audits one frozen contract and repairs only demonstrated gaps. It does not independently repeat the full planning pass.
 5. Logical model roles must be resolved against the receiving surface's live capabilities, and the effective model and effort must be recorded.
 
+## Retrieval and research ladder
+
+Choose the smallest sufficient layer; do not run several discovery paths by default.
+
+1. Use direct reasoning, normal web retrieval, and primary or official sources for ordinary current-fact questions.
+2. Use the `arxiv` skill for focused paper discovery by title, author, identifier, category, or bounded keywords.
+3. Use the global `anysearch` skill only when vertical-domain search, multi-query batching, URL extraction, or materially broader discovery is needed. AnySearch is a discovery layer; verify consequential claims against the retrieved primary source. Anonymous access is an available fallback when `ANYSEARCH_API_KEY` is absent, and credentials must never enter prompts, packets, repositories, or logs.
+4. Use the global `research-harness` skill only for long, multi-stage, resumable research deliverables that need evidence records, checkpoints, or completion checks. A one-off question or literature lookup must not pay this setup cost.
+
+Stop escalating as soon as the evidence is sufficient. Do not transmit private queries, manuscripts, unpublished parameters, or other restricted research content to an external search service without explicit approval.
+
 ## Local target matrix
 
 Score cross-source synthesis, reasoning depth, ambiguity, verification burden, and context volume from 0 to 2 each.
