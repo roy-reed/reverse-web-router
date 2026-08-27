@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: agent-workers
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Capture and validate issue contract
         id: contract
         if: "github.event_name == 'issues'"
