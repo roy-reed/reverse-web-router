@@ -14,6 +14,7 @@
       "enum": ["CONTROL", "WEB_DIRECT", "GITHUB_CLOUD", "LOCAL_EDGE", "HYBRID_CLOUD_LOCAL"]
     },
     "web_capability": { "enum": ["FAST", "BALANCED", "DEEP"] },
+    "reasoning_plan": { "$ref": "#/$defs/reasoning_plan" },
     "project": { "$ref": "#/$defs/project" },
     "orchestration": { "$ref": "#/$defs/orchestration" },
     "objective": { "type": "string", "minLength": 1 },
@@ -52,6 +53,28 @@
         "planner": { "enum": ["WEB", "CODE", "HUMAN"] },
         "worker_policy": { "enum": ["AUTO", "MANUAL"] },
         "merge_policy": { "enum": ["NO_MAIN_AUTO_MERGE", "ALLOW_INTEGRATION_BRANCH"] }
+      }
+    },
+    "reasoning_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "complexity_score", "risk", "web_tier", "delegated_stage",
+        "execution_tier", "execution_role", "execution_effort",
+        "max_external_reasoning_calls", "supervisor",
+        "acceptance_authority"
+      ],
+      "properties": {
+        "complexity_score": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "risk": { "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "web_tier": { "enum": ["FAST", "BALANCED", "DEEP"] },
+        "delegated_stage": { "enum": ["NONE", "PLANNER", "REVIEWER", "PLANNER_AND_REVIEWER"] },
+        "execution_tier": { "enum": ["NONE", "FAST", "BALANCED", "DEEP"] },
+        "execution_role": { "enum": ["NONE", "LUNA", "TERRA", "SOL"] },
+        "execution_effort": { "enum": ["NONE", "LOW", "MEDIUM", "HIGH", "XHIGH", "MAX"] },
+        "max_external_reasoning_calls": { "type": "integer", "minimum": 0, "maximum": 2 },
+        "supervisor": { "const": "WEB" },
+        "acceptance_authority": { "enum": ["WEB", "LOCAL_CODEX", "GITHUB_CHECKS", "USER"] }
       }
     },
     "acceptance_criteria": {

@@ -6,6 +6,6 @@
   "properties": {
     "provider": {"enum": ["auto", "deepseek", "fake", "future"]},
     "model_class": {"enum": ["fast", "balanced", "deep"]},
-    "role": {"enum": ["implementer", "verifier"]}
+    "role": {"enum": ["planner", "implementer", "verifier", "reviewer"]}
   }
 }

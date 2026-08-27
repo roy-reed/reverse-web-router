@@ -13,7 +13,7 @@ The user will use that Project as the normal web entry point. They should not ne
 For local engineering work, Codex must also be able to choose between:
 
 - direct Codex execution; and
-- the user's existing `coding-project-runner` skill, which uses `F:\codingenv`, Pi, and DeepSeek V4 Flash in an isolated Git worktree.
+- the user's existing `coding-project-runner` skill, which uses `F:\codingenv`, Pi, and cost-tiered DeepSeek V4 Flash/Pro workers in an isolated Git worktree.
 
 Do NOT create a second DeepSeek launcher. Reuse the existing `coding-project-runner` as the authoritative DeepSeek execution mechanism.
 
@@ -48,7 +48,7 @@ Codex Router / Executor
 Codex Direct       coding-project-runner
                          |
                          v
-                 Pi + DeepSeek V4 Flash
+                 Pi + DeepSeek V4 Flash/Pro
                  isolated Git worktree
 ```
 
@@ -326,7 +326,7 @@ Do not silently bypass any `coding-project-runner` rule.
 The existing skill uses:
 
 - `F:\codingenv`;
-- Pi + DeepSeek V4 Flash;
+- Pi + cost-tiered DeepSeek V4 Flash/Pro;
 - an isolated Git worktree;
 - Codex as planner, monitor, and acceptance gate.
 

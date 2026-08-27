@@ -16,6 +16,7 @@ from orchestrator.yamlmini import parse as parse_yaml  # noqa: E402
 
 
 REQUIRED_FILES = (
+    "LICENSE",
     "README.md",
     "ARCHITECTURE_DECISION.md",
     "PROTOCOL.md",
@@ -32,6 +33,7 @@ REQUIRED_FILES = (
     ".github/workflows/agent-integrate.yml",
     "web-project/PROJECT_INSTRUCTIONS.md",
     "web-project/USER_WEB_SETUP.md",
+    "docs/web-local-reasoning-routing.md",
     "local-edge/translator.py",
     "local-edge/bridge/native_host.py",
     "local-edge/extension/manifest.json",

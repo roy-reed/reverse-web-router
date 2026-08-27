@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import _bootstrap  # noqa: F401
 from orchestrator.claims import claim_task, mark_paid_invocation, update_claim
-from orchestrator.errors import ClaimConflictError, DuplicatePaidInvocationError, LiveInvocationBlockedError
+from orchestrator.errors import ClaimConflictError, DuplicatePaidInvocationError, LiveInvocationBlockedError, ProtocolError
 from orchestrator.worker import DeepSeekWorkerAdapter, FakeWorkerAdapter
 
 
@@ -21,12 +21,12 @@ class CapturingTransport:
 
     def invoke(self, endpoint, payload, api_key):
         self.calls.append((endpoint, payload, api_key))
-        return {"id": "provider-01", "output_text": "done"}
+        return {"id": "provider-01", "choices": [{"message": {"content": "done"}}]}
 
 
 class EchoKeyTransport:
     def invoke(self, endpoint, payload, api_key):
-        return {"id": "provider-echo", "output_text": "unexpected echo: " + api_key}
+        return {"id": "provider-echo", "choices": [{"message": {"content": "unexpected echo: " + api_key}}]}
 
 
 class ClaimsAndWorkerTests(unittest.TestCase):
@@ -64,9 +64,47 @@ class ClaimsAndWorkerTests(unittest.TestCase):
             self.assertEqual(result.provider_run_id, "provider-01")
             self.assertEqual(len(transport.calls), 1)
             endpoint, payload, key = transport.calls[0]
-            self.assertTrue(endpoint.endswith("/responses"))
+            self.assertTrue(endpoint.endswith("/chat/completions"))
             self.assertEqual(key, "test-only-secret")
             self.assertNotIn(key, str(payload))
+            self.assertEqual(payload["model"], "deepseek-v4-flash")
+            self.assertEqual(payload["reasoning_effort"], "high")
+            self.assertEqual(payload["thinking"], {"type": "enabled"})
+            self.assertEqual(result.model, "deepseek-v4-flash")
+
+    def test_deep_model_class_selects_pro_and_max_reasoning(self):
+        with tempfile.TemporaryDirectory() as temp:
+            claim_task(Path(temp), "task-02", "deepseek")
+            transport = CapturingTransport()
+            task = {**TASK, "task_id": "task-02", "worker": {"model_class": "deep", "role": "planner"}}
+            env = {"RWR_ALLOW_LIVE": "1", "DEEPSEEK_API_KEY": "test-only-secret"}
+            with patch.dict(os.environ, env, clear=True):
+                result = DeepSeekWorkerAdapter(transport).run(task, temp)
+            _, payload, _ = transport.calls[0]
+            self.assertEqual(payload["model"], "deepseek-v4-pro")
+            self.assertEqual(payload["reasoning_effort"], "max")
+            self.assertIn("bounded architecture planner", payload["messages"][0]["content"])
+            self.assertEqual(result.model, "deepseek-v4-pro")
+
+    def test_planner_cannot_silently_fall_back_to_flash(self):
+        with tempfile.TemporaryDirectory() as temp:
+            claim_task(Path(temp), "task-04", "deepseek")
+            task = {**TASK, "task_id": "task-04", "worker": {"model_class": "balanced", "role": "planner"}}
+            env = {"RWR_ALLOW_LIVE": "1", "DEEPSEEK_API_KEY": "test-only-secret"}
+            with patch.dict(os.environ, env, clear=True):
+                with self.assertRaises(ProtocolError):
+                    DeepSeekWorkerAdapter(CapturingTransport()).run(task, temp)
+            mark_paid_invocation(Path(temp), "task-04", "provider-after-role-validation")
+
+    def test_invalid_model_class_fails_before_paid_marker(self):
+        with tempfile.TemporaryDirectory() as temp:
+            claim_task(Path(temp), "task-03", "deepseek")
+            task = {**TASK, "task_id": "task-03", "worker": {"model_class": "unknown"}}
+            env = {"RWR_ALLOW_LIVE": "1", "DEEPSEEK_API_KEY": "test-only-secret"}
+            with patch.dict(os.environ, env, clear=True):
+                with self.assertRaises(ProtocolError):
+                    DeepSeekWorkerAdapter(CapturingTransport()).run(task, temp)
+            mark_paid_invocation(Path(temp), "task-03", "provider-after-validation")
 
     def test_provider_key_echo_is_redacted(self):
         with tempfile.TemporaryDirectory() as temp:

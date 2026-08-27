@@ -3,6 +3,8 @@ name = "reverse-web-router"
 version = "0.1.0"
 description = "GitHub-cloud control plane with an optional LOCAL_EDGE compatibility path"
 requires-python = ">=3.10"
+readme = "README.md"
+license = { file = "LICENSE" }
 dependencies = []
 
 [tool.unittest]
