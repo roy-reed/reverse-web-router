@@ -16,5 +16,10 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Compile Python
         run: python -m compileall -q .agent-orchestrator local-edge
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+      - name: Extension behavior tests (node:test, mocked chrome API)
+        run: node --test local-edge/extension/test/*.test.mjs
       - name: Repository invariants
         run: python .agent-orchestrator/scripts/validate_repo.py
