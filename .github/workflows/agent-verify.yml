@@ -23,3 +23,24 @@ jobs:
         run: node --test local-edge/extension/test/*.test.mjs
       - name: Repository invariants
         run: python .agent-orchestrator/scripts/validate_repo.py
+
+  extension-e2e:
+    # 真实 Chromium（Playwright 固定 1.64.0）加载未打包扩展；channel=chromium 的新版 headless 支持扩展，无需 xvfb
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: local-edge/extension/e2e
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: local-edge/extension/e2e/package-lock.json
+      - name: Install Playwright
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Extension E2E tests
+        run: npm test
