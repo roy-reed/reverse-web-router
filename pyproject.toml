@@ -5,7 +5,25 @@ description = "GitHub-cloud control plane with an optional LOCAL_EDGE compatibil
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
+authors = [{ name = "Roy Reed" }]
+keywords = ["github-actions", "agent", "orchestration", "browser-extension", "native-messaging"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Private :: Do Not Upload",
+]
+# 仅使用标准库
 dependencies = []
 
+[project.urls]
+Repository = "https://github.com/roy-reed/reverse-web-router"
+Issues = "https://github.com/roy-reed/reverse-web-router/issues"
+Security = "https://github.com/roy-reed/reverse-web-router/blob/main/SECURITY.md"
+
+# 非标准表，仅作说明：测试入口为 python -m unittest discover -s tests（与 CI agent-verify.yml 一致）
 [tool.unittest]
 start-directory = "tests"
