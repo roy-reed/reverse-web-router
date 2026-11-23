@@ -28,7 +28,7 @@
 
 ## 快速开始
 
-要求 Python `>=3.10`；项目运行依赖为空，优先使用当前平台的 Python 虚拟环境隔离开发。
+要求 Python `>=3.11`；项目运行依赖为空，优先使用当前平台的 Python 虚拟环境隔离开发。
 
 ```powershell
 git clone https://github.com/roy-reed/reverse-web-router.git
